@@ -1,0 +1,34 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract CustomErrorHandling {
+    uint256 public storedValue;
+
+    // Function to demonstrate the require statement
+    function testRequire(uint256 _input) public {
+        // Require that the input value is greater than 10, otherwise revert with the given message
+        require(_input > 10, "Input must be greater than 10");
+        storedValue = _input;
+    }
+
+    // Function to demonstrate the assert statement
+    function testAssert() public {
+        uint256 a = 40;
+        uint256 b = 20;
+
+        // Assert that the condition (a < b) is true, otherwise revert
+        assert(a < b);
+
+        // This line will not be executed if the assert fails
+        storedValue = 42;
+    }
+
+    // Function to demonstrate the revert statement
+    function testRevert(uint256 _input) public {
+        // Check if the input value is zero, and revert with a custom message if it is
+        if (_input == 0) {
+            revert("Input cannot be zero");
+        }
+        storedValue = _input;
+    }
+}
