@@ -1,34 +1,28 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
-contract CustomErrorHandling {
-    uint256 public storedValue;
+contract Voting {
+    uint256 public totalVotes;
 
-    // Function to demonstrate the require statement
-    function testRequire(uint256 _input) public {
-        // Require that the input value is greater than 10, otherwise revert with the given message
-        require(_input > 10, "Input must be greater than 10");
-        storedValue = _input;
+    function castVote(uint256 candidateId) public {
+        require(candidateId > 0, "Candidate ID must be greater than zero");
+
+        totalVotes++;
     }
 
-    // Function to demonstrate the assert statement
-    function testAssert() public {
-        uint256 a = 40;
-        uint256 b = 20;
+    function testAssertion() public pure {
+        uint256 candidateA = 2; // Assuming candidateA is of type uint256
+        uint256 candidateB = 3;
 
-        // Assert that the condition (a < b) is true, otherwise revert
-        assert(a < b);
-
-        // This line will not be executed if the assert fails
-        storedValue = 42;
+        assert(candidateA > candidateB);
     }
 
-    // Function to demonstrate the revert statement
-    function testRevert(uint256 _input) public {
-        // Check if the input value is zero, and revert with a custom message if it is
-        if (_input == 0) {
-            revert("Input cannot be zero");
+    uint256 public votingLimit = 2;
+
+    function voteIfBelowLimit(uint256 candidateId) public {
+        if (totalVotes >= votingLimit) {
+            revert("Voting limit reached");
         }
-        storedValue = _input;
+        castVote(candidateId);
     }
 }
